@@ -1,0 +1,36 @@
+.
+ |-result
+ | |-LI.csv
+ | |-N_D_T_MAX.csv
+ | |-LOG.log
+ | |-MODELO.csv
+ | |-RECORDS.csv
+ | |-RESULTADOS.csv
+ | |-ESPERADOS.csv
+ | |-CONSULTAS.csv
+ | |-MODELO_W.csv
+ |-readme.md
+ |-src
+ | |-index.py
+ | |-main.py
+ | |-gli.py
+ | |-busca.py
+ | |-splitcode
+ | | |-__init__.py
+ | |-pc.py
+ |-modelo.txt
+ |-data
+ | |-cf76.xml
+ | |-cfc-2.dtd
+ | |-cf79.xml
+ | |-cfquery.xml
+ | |-cf74.xml
+ | |-cfcquery-2.dtd
+ | |-cf78.xml
+ | |-cf77.xml
+ | |-cf75.xml
+ |-config
+ | |-INDEX.CFG
+ | |-GLI.CFG
+ | |-PC.CFG
+ | |-BUSCA.CFG
