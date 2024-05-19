@@ -1,6 +1,6 @@
-# Sistema de Recuperação Em Memória Segundo o Modelo Vetorial
+# Avaliação de um Modelo de Recuperação da Informação
 
-Esse repositório contém a implementação de um sistema de recuperação em memória segundo o modelo vetorial da disciplina de Busca e Mineração de Texto.
+Esse repositório contém a avaliação de um sistema de recuperação em memória segundo o modelo vetorial da disciplina de Busca e Mineração de Texto.
 
 ### Execução do sistema
 
