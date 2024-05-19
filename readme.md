@@ -2,6 +2,9 @@
 
 Esse repositório contém a avaliação de um sistema de recuperação em memória segundo o modelo vetorial da disciplina de Busca e Mineração de Texto.
 
+### Avaliação do sistema
+Os resultados da avaliação do sistema encontram-se disponiveis no diretório /avalia. Os gráficos gerados na avaliação do sistema encontram-se disponíveis em /result/diagramas.
+
 ### Execução do sistema
 
 1. Clone o repositório para o seu computador
