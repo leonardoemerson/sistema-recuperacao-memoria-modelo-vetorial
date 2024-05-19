@@ -1,14 +1,15 @@
-import time
-from lxml import etree
-import logging
 import pandas as pd
-from splitcode import text_treatment
 from configparser import ConfigParser
+from lxml import etree
+from splitcode import text_treatment
+import logging
+import time
+
 
 class ProcessadorConsultas:
     def __init__(self):
         logging.info("Processador de Consultas inicializado.")
-        self.start_time = time.time()
+        self.time_inicio = time.time()
 
 #1 - O processador de consultas deverá ler um arquivo de configuração
 
@@ -24,7 +25,7 @@ class ProcessadorConsultas:
         self.df_consultas = pd.DataFrame([])
         self.df_esperados = pd.DataFrame([])
 
-        self.processa_consultas()
+        self.run()
         self.output()
 
         logging.info("Processador de Consultas - Consultas processadas com sucesso em "
@@ -34,37 +35,40 @@ class ProcessadorConsultas:
 #3 - O Processador de Consultas deverá gerar dois arquivos
 
     @staticmethod
-    def get_votes_score(score: str) -> int:
+    def get_votes(score: str) -> int:
         # Retorna a pontuação para um determinado score
         return sum([1 for i in score if i != "0"])
 
-    def processa_consultas(self):
+    def run(self):
 
         root = etree.parse(self.LEIA)
 
+
         query_numbers_consultas = []
+        query_text_consultas = []
         query_numbers_esperados = []
         doc_numbers = []
         doc_votes = []
-        query_text_consultas = []
 
-        for query_elemento in root.xpath('//QUERY'):
-            query_number = query_elemento.findtext('QueryNumber')
-            query_text = query_elemento.findtext("QueryText")
+
+        for query_elem in root.xpath('//QUERY'):
+            query_number = query_elem.findtext('QueryNumber')
+            query_text = query_elem.findtext("QueryText")
 
             query_numbers_consultas.append(query_number)
             query_text_consultas.append(query_text)
 
-            records_elemento = query_elemento.find('Records')
-            if records_elemento is not None:
-                for item_elem in records_elemento.findall('Item'):
+            records_elem = query_elem.find('Records')
+            if records_elem is not None:
+                for item_elem in records_elem.findall('Item'):
                     doc_number = item_elem.text
                     score = item_elem.get('score')
-                    doc_vote = self.get_votes_score(score)
+                    doc_vote = self.get_votes(score)
 
                     query_numbers_esperados.append(query_number)
                     doc_numbers.append(doc_number)
                     doc_votes.append(doc_vote)
+
 
         df_consultas = pd.DataFrame({"QueryNumber": query_numbers_consultas,
                                      "QueryText": query_text_consultas})
@@ -74,12 +78,10 @@ class ProcessadorConsultas:
 
         df_consultas["QueryNumber"] = df_consultas["QueryNumber"].str.replace(';', '')
         df_consultas["QueryNumber"] = df_consultas["QueryNumber"].astype(int)
-        df_consultas["QueryText"] = text_treatment(df_consultas["QueryText"])
-
+        df_consultas["QueryText"] = tratar_texto(df_consultas["QueryText"])
         df_esperados = pd.DataFrame({'QueryNumber': query_numbers_esperados,
                                      'DocNumber': doc_numbers,
                                      'DocVote': doc_votes})
-
         df_esperados["QueryNumber"] = df_esperados["QueryNumber"].astype(int)
 
         self.df_consultas = df_consultas
@@ -90,6 +92,7 @@ class ProcessadorConsultas:
     def output(self):
         self.df_consultas.to_csv(self.CONSULTAS, index=False, sep=";")
         self.df_esperados.to_csv(self.ESPERADOS, index=False, sep=";")
+
 
 if __name__ == "__main__":
     ProcessadorConsultas()

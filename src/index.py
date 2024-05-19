@@ -9,7 +9,7 @@ import time
 class Indexador:
     def __init__(self):
         logging.info("Indexador inicializado.")
-        self.start_time = time.time()
+        self.time_inicio = time.time()
 #1 - O indexador será configurado por um arquivo INDEX.CFG
         config = ConfigParser()
         config.read(r'.\config\INDEX.CFG')
@@ -31,7 +31,7 @@ class Indexador:
         self.output()
 
         logging.info("Indexador - Modelo processado com sucesso em "
-                     + str(time.time() - self.start_time) + "s")
+                     + str(time.time() - self.time_inicio) + "s")
 #2 - O Indexador deverá implementar um indexador segundo o Modelo Vetorial
     def tf_idf(self, row: pd.Series) -> dict:
         if type(row["RecordList"]) == str:
@@ -50,7 +50,7 @@ class Indexador:
         df_modelo = pd.read_csv(self.LEIA_LI, sep=";")
 
         logging.info("Indexador - Dados lidos em "
-                     + str(time.time() - self.start_time) + "s")
+                     + str(time.time() - self.time_inicio) + "s")
 
         df_modelo["idf"] = df_modelo["n_d"].apply(lambda n_d: idf(n_d, self.N_d))
         df_modelo.drop("n_d", axis=1, inplace=True)
